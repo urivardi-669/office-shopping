@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getSessionFromRequest } from "@/lib/session";
 import { getOpenCycleId } from "@/lib/cycle";
 import { isExactMatch } from "@/lib/similarity";
 
 export async function GET(req: NextRequest) {
-  const session = await getSession();
+  const session = await getSessionFromRequest(req);
   if (!session) return NextResponse.json({ error: "יש להתחבר" }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
+  const session = await getSessionFromRequest(req);
   if (!session) return NextResponse.json({ error: "יש להתחבר" }, { status: 401 });
 
   const body = await req.json();

@@ -19,6 +19,7 @@ export type Product = {
   imageUrl?: string | null;
   sku?: string | null;
   sourceUrl?: string | null;
+  sourceProductId?: string | null;
   units?: ProductUnit[];
 };
 

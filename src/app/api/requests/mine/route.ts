@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getSessionFromRequest } from "@/lib/session";
 
-export async function GET() {
-  const session = await getSession();
+export async function GET(req: NextRequest) {
+  const session = await getSessionFromRequest(req);
   if (!session) return NextResponse.json({ error: "יש להתחבר" }, { status: 401 });
 
   const items = await db

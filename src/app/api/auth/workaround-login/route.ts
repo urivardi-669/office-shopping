@@ -55,8 +55,11 @@ export async function POST(req: NextRequest) {
     await db.prepare(`INSERT INTO users (name, role) VALUES (?, ?)`).run(email, role);
   }
 
-  const res = NextResponse.json({ ok: true, role });
-  res.cookies.set(SESSION_COOKIE, encodeSession({ name: email, role }), {
+  const token = encodeSession({ name: email, role });
+  // `token` lets non-cookie clients (the "eko Fresh" browser extension) carry
+  // this same session as an `Authorization: Bearer` header instead.
+  const res = NextResponse.json({ ok: true, role, token });
+  res.cookies.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

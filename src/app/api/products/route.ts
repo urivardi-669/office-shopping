@@ -11,7 +11,8 @@ export async function GET(req: NextRequest) {
 
   let sql = `
     SELECT p.id, p.name, p.active, p.category_id AS "categoryId", c.name AS "categoryName",
-           p.source, p.brand, p.image_url AS "imageUrl", p.sku, p.source_url AS "sourceUrl"
+           p.source, p.brand, p.image_url AS "imageUrl", p.sku, p.source_url AS "sourceUrl",
+           p.source_product_id AS "sourceProductId"
     FROM products p
     JOIN categories c ON c.id = p.category_id
     WHERE 1=1

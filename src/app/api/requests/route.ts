@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withTransaction } from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getSessionFromRequest } from "@/lib/session";
 import { getOpenCycleId } from "@/lib/cycle";
 
 type IncomingItem = { productId: number; quantity: number; unitCode?: string };
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
+  const session = await getSessionFromRequest(req);
   if (!session) return NextResponse.json({ error: "יש להתחבר" }, { status: 401 });
 
   const body = await req.json();

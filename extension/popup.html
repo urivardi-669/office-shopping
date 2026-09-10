@@ -1,0 +1,104 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+  <head>
+    <meta charset="utf-8" />
+    <title>eko Fresh</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <span class="eko-pill">eko</span>
+      <span class="header-title">Fresh</span>
+      <div class="header-spacer"></div>
+      <span id="whoami" class="whoami" hidden></span>
+      <button id="logoutBtn" class="link-btn" hidden>התנתקות</button>
+    </header>
+
+    <main id="app">
+      <!-- Login view -->
+      <section id="loginView" class="view">
+        <div class="login-card">
+          <p class="login-lead">התחברות עם כתובת eko.com</p>
+          <input id="loginEmail" type="email" placeholder="name@eko.com" dir="ltr" class="input" />
+          <button id="loginBtn" class="btn btn-primary btn-block">התחברות</button>
+          <p id="loginError" class="error-text" hidden></p>
+        </div>
+      </section>
+
+      <!-- Main (search) view -->
+      <section id="mainView" class="view" hidden>
+        <div class="tabs">
+          <button id="tabSearch" class="tab active">חיפוש מוצר</button>
+          <button id="tabHistory" class="tab">ההיסטוריה שלי</button>
+        </div>
+
+        <div id="searchPane">
+          <input id="searchInput" type="text" placeholder="חיפוש מוצר בטיב טעם" class="input" />
+          <div id="searchStatus" class="status-text"></div>
+          <div id="results" class="results-list"></div>
+        </div>
+
+        <div id="historyPane" hidden>
+          <div id="historyStatus" class="status-text"></div>
+          <div id="historyList" class="results-list"></div>
+        </div>
+      </section>
+
+      <!-- Product detail / request view -->
+      <section id="detailView" class="view" hidden>
+        <button id="backBtn" class="link-btn back-btn">→ חזרה לתוצאות</button>
+        <div class="detail-card">
+          <div class="detail-header">
+            <img id="detailImg" class="detail-img" alt="" />
+            <div>
+              <div id="detailName" class="detail-name"></div>
+              <div id="detailBrand" class="detail-brand"></div>
+              <div id="detailMeta" class="detail-meta"></div>
+            </div>
+          </div>
+
+          <div id="existsBanner" class="banner banner-info" hidden>
+            המוצר כבר קיים בקטלוג המשרד — הבקשה תתווסף ישירות ✓
+          </div>
+
+          <div id="categoryField" class="field">
+            <label class="field-label">קטגוריה</label>
+            <select id="categorySelect" class="input"></select>
+          </div>
+
+          <div class="field">
+            <label class="field-label">יחידה</label>
+            <div id="unitLabel" class="unit-static"></div>
+          </div>
+
+          <div class="field">
+            <label class="field-label">כמות</label>
+            <div class="qty-row">
+              <button id="qtyMinus" class="qty-btn" type="button">−</button>
+              <span id="qtyValue" class="qty-value">1</span>
+              <button id="qtyPlus" class="qty-btn" type="button">+</button>
+            </div>
+          </div>
+
+          <div id="duplicateWarning" class="banner banner-warning" hidden></div>
+
+          <button id="submitBtn" class="btn btn-primary btn-block">בקש הזמנה</button>
+          <p id="submitError" class="error-text" hidden></p>
+        </div>
+      </section>
+
+      <!-- Success view -->
+      <section id="successView" class="view" hidden>
+        <div class="success-card">
+          <div class="success-icon">✓</div>
+          <p id="successText" class="success-text"></p>
+          <button id="successBackBtn" class="btn btn-primary btn-block">חיפוש נוסף</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="lib/tivtaam.js"></script>
+    <script src="lib/api.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

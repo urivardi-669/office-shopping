@@ -27,4 +27,19 @@ export async function getSession(): Promise<Session | null> {
   return decodeSession(raw);
 }
 
+/**
+ * Same as getSession(), but also accepts an `Authorization: Bearer <token>`
+ * header carrying the same encoded session — used by the "eko Fresh" Chrome
+ * extension, which can't rely on this app's cookie (cross-context cookie
+ * behavior for extensions is unreliable) and instead stores the token itself.
+ */
+export async function getSessionFromRequest(req: Request): Promise<Session | null> {
+  const auth = req.headers.get("authorization");
+  if (auth?.startsWith("Bearer ")) {
+    const session = decodeSession(auth.slice(7));
+    if (session) return session;
+  }
+  return getSession();
+}
+
 export const SESSION_COOKIE = COOKIE_NAME;

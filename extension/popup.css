@@ -1,0 +1,390 @@
+:root {
+  --violet-600: #7c3aed;
+  --violet-700: #6d28d9;
+  --violet-50: #f5f3ff;
+  --neutral-950: #0a0a0a;
+  --neutral-800: #262626;
+  --neutral-600: #525252;
+  --neutral-400: #a3a3a3;
+  --neutral-200: #e5e5e5;
+  --neutral-100: #f5f5f5;
+  --neutral-50: #fafafa;
+  --emerald-600: #059669;
+  --emerald-50: #ecfdf5;
+  --amber-700: #b45309;
+  --amber-50: #fffbeb;
+  --red-600: #dc2626;
+  --red-50: #fef2f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 380px;
+  min-height: 480px;
+  background: var(--neutral-50);
+  color: var(--neutral-800);
+  font-family: "Segoe UI", Arial, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--neutral-200);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.eko-pill {
+  background: var(--neutral-950);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 13px;
+}
+
+.header-title {
+  font-weight: 700;
+  color: var(--neutral-800);
+}
+
+.header-spacer {
+  flex: 1;
+}
+
+.whoami {
+  color: var(--neutral-400);
+  font-size: 11px;
+  direction: ltr;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main {
+  padding: 14px;
+}
+
+.view {
+  display: block;
+}
+
+.login-card,
+.detail-card,
+.success-card {
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-lead {
+  margin: 0 0 4px;
+  color: var(--neutral-600);
+  font-size: 13px;
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--neutral-200);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--neutral-800);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--violet-600);
+  box-shadow: 0 0 0 2px var(--violet-50);
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--violet-600);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--violet-700);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--violet-600);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.back-btn {
+  margin-bottom: 10px;
+}
+
+.error-text {
+  color: var(--red-600);
+  background: var(--red-50);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.status-text {
+  color: var(--neutral-400);
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  background: var(--neutral-100);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.tab {
+  flex: 1;
+  border: none;
+  background: none;
+  padding: 7px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--neutral-600);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tab.active {
+  background: #fff;
+  color: var(--violet-700);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.result-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  text-align: start;
+}
+
+.result-card:hover {
+  border-color: var(--violet-600);
+  background: var(--violet-50);
+}
+
+.result-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--neutral-100);
+  flex-shrink: 0;
+}
+
+.result-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.result-name {
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--neutral-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-meta {
+  font-size: 11px;
+  color: var(--neutral-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--emerald-50);
+  color: var(--emerald-600);
+  border-radius: 999px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+
+.detail-header {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.detail-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--neutral-100);
+  flex-shrink: 0;
+}
+
+.detail-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.detail-brand {
+  color: var(--neutral-600);
+  font-size: 12px;
+}
+
+.detail-meta {
+  color: var(--neutral-400);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.banner {
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.banner-info {
+  background: var(--violet-50);
+  color: var(--violet-700);
+}
+
+.banner-warning {
+  background: var(--amber-50);
+  color: var(--amber-700);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--neutral-600);
+}
+
+.unit-static {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-800);
+  padding: 6px 0;
+}
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--neutral-200);
+  background: #fff;
+  color: var(--violet-600);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.qty-btn:hover {
+  background: var(--violet-50);
+}
+
+.qty-value {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.success-card {
+  align-items: center;
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.success-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--emerald-50);
+  color: var(--emerald-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.success-text {
+  color: var(--neutral-800);
+  font-size: 13px;
+  margin: 0;
+}
