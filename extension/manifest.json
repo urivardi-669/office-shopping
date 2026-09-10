@@ -3,7 +3,6 @@
   "name": "eko Fresh",
   "version": "1.0.0",
   "description": "חפשו מוצרים בטיב טעם ושלחו בקשה ישירות למנהל המשרד.",
-  "default_locale": "he",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
