@@ -39,7 +39,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const product = await db
     .prepare(
-      `SELECT p.id, p.name, p.active, p.category_id AS categoryId, c.name AS categoryName
+      `SELECT p.id, p.name, p.active, p.category_id AS "categoryId", c.name AS "categoryName"
        FROM products p JOIN categories c ON c.id = p.category_id WHERE p.id = ?`
     )
     .get(productId);

@@ -12,7 +12,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
   const cycleId = Number(cycleIdParam);
 
   const cycle = (await db
-    .prepare(`SELECT id, status, created_at AS createdAt, closed_at AS closedAt FROM cycles WHERE id = ?`)
+    .prepare(`SELECT id, status, created_at AS "createdAt", closed_at AS "closedAt" FROM cycles WHERE id = ?`)
     .get(cycleId)) as { id: number; status: string; createdAt: string; closedAt: string | null } | undefined;
 
   if (!cycle || cycle.status !== "CLOSED") {
@@ -21,7 +21,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
 
   const demandRows = (await db
     .prepare(
-      `SELECT p.id AS productId, SUM(ri.quantity)::int AS demand,
+      `SELECT p.id AS "productId", SUM(ri.quantity)::int AS demand,
               STRING_AGG(DISTINCT ri.user_name, ',') AS requesters
        FROM request_items ri
        JOIN products p ON p.id = ri.product_id
@@ -33,9 +33,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
 
   const items = (await db
     .prepare(
-      `SELECT oi.product_id AS productId, oi.final_quantity AS finalQuantity,
-              p.name AS productName, c.name AS categoryName, p.image_url AS imageUrl,
-              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS unitLabel
+      `SELECT oi.product_id AS "productId", oi.final_quantity AS "finalQuantity",
+              p.name AS "productName", c.name AS "categoryName", p.image_url AS "imageUrl",
+              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS "unitLabel"
        FROM order_items oi
        JOIN products p ON p.id = oi.product_id
        JOIN categories c ON c.id = p.category_id

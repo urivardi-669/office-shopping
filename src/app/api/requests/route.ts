@@ -22,14 +22,14 @@ export async function POST(req: NextRequest) {
   await withTransaction(async (tx) => {
     for (const row of valid) {
       const product = (await tx
-        .prepare(`SELECT p.name, p.sku, p.image_url AS imageUrl FROM products p WHERE p.id = ?`)
+        .prepare(`SELECT p.name, p.sku, p.image_url AS "imageUrl" FROM products p WHERE p.id = ?`)
         .get(row.productId)) as { name: string; sku: string | null; imageUrl: string | null } | undefined;
       if (!product) continue;
 
       const unit = row.unitCode
         ? ((await tx
             .prepare(
-              `SELECT unit_code AS unitCode, unit_label AS unitLabel FROM product_units
+              `SELECT unit_code AS "unitCode", unit_label AS "unitLabel" FROM product_units
                WHERE product_id = ? AND unit_code = ? AND active = 1`
             )
             .get(row.productId, row.unitCode)) as { unitCode: string; unitLabel: string } | undefined)

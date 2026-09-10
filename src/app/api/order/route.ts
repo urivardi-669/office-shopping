@@ -13,10 +13,10 @@ export async function GET() {
 
   const demandRows = (await db
     .prepare(
-      `SELECT p.id AS productId, p.name AS productName, c.name AS categoryName, p.image_url AS imageUrl,
+      `SELECT p.id AS "productId", p.name AS "productName", c.name AS "categoryName", p.image_url AS "imageUrl",
               SUM(ri.quantity)::int AS demand,
               STRING_AGG(DISTINCT ri.user_name, ',') AS requesters,
-              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS unitLabel
+              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS "unitLabel"
        FROM request_items ri
        JOIN products p ON p.id = ri.product_id
        JOIN categories c ON c.id = p.category_id
@@ -35,9 +35,9 @@ export async function GET() {
 
   const orderRows = (await db
     .prepare(
-      `SELECT oi.product_id AS productId, oi.final_quantity AS finalQuantity, p.name AS productName, c.name AS categoryName,
-              p.image_url AS imageUrl,
-              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS unitLabel
+      `SELECT oi.product_id AS "productId", oi.final_quantity AS "finalQuantity", p.name AS "productName", c.name AS "categoryName",
+              p.image_url AS "imageUrl",
+              (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS "unitLabel"
        FROM order_items oi
        JOIN products p ON p.id = oi.product_id
        JOIN categories c ON c.id = p.category_id
@@ -99,9 +99,9 @@ export async function GET() {
 
   const pendingSuggestions = await db
     .prepare(
-      `SELECT s.id AS suggestionId, s.product_name AS productName, c.name AS categoryName,
-              s.requested_quantity AS requestedQuantity, s.suggested_by AS suggestedBy,
-              s.image_url AS imageUrl, s.brand, s.unit_label AS unitLabel
+      `SELECT s.id AS "suggestionId", s.product_name AS "productName", c.name AS "categoryName",
+              s.requested_quantity AS "requestedQuantity", s.suggested_by AS "suggestedBy",
+              s.image_url AS "imageUrl", s.brand, s.unit_label AS "unitLabel"
        FROM suggestions s
        JOIN categories c ON c.id = s.category_id
        WHERE s.status = 'PENDING' AND s.cycle_id = ?`

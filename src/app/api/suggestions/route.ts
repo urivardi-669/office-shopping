@@ -14,9 +14,9 @@ export async function GET(req: NextRequest) {
   if (scope === "mine") {
     const rows = await db
       .prepare(
-        `SELECT s.id, s.product_name AS productName, s.status, s.requested_quantity AS requestedQuantity,
-                s.created_at AS createdAt, s.rejection_reason AS rejectionReason,
-                c.name AS categoryName, s.source, s.brand, s.image_url AS imageUrl, s.unit_label AS unitLabel
+        `SELECT s.id, s.product_name AS "productName", s.status, s.requested_quantity AS "requestedQuantity",
+                s.created_at AS "createdAt", s.rejection_reason AS "rejectionReason",
+                c.name AS "categoryName", s.source, s.brand, s.image_url AS "imageUrl", s.unit_label AS "unitLabel"
          FROM suggestions s
          JOIN categories c ON c.id = s.category_id
          WHERE s.suggested_by = ?
@@ -32,10 +32,10 @@ export async function GET(req: NextRequest) {
 
   const rows = await db
     .prepare(
-      `SELECT s.id, s.product_name AS productName, s.status, s.requested_quantity AS requestedQuantity,
-              s.created_at AS createdAt, s.suggested_by AS suggestedBy, s.rejection_reason AS rejectionReason,
-              c.id AS categoryId, c.name AS categoryName,
-              s.source, s.brand, s.image_url AS imageUrl, s.sku, s.unit_label AS unitLabel
+      `SELECT s.id, s.product_name AS "productName", s.status, s.requested_quantity AS "requestedQuantity",
+              s.created_at AS "createdAt", s.suggested_by AS "suggestedBy", s.rejection_reason AS "rejectionReason",
+              c.id AS "categoryId", c.name AS "categoryName",
+              s.source, s.brand, s.image_url AS "imageUrl", s.sku, s.unit_label AS "unitLabel"
        FROM suggestions s
        JOIN categories c ON c.id = s.category_id
        ORDER BY (s.status = 'PENDING') DESC, s.created_at DESC`

@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       const placeholders = sourceIds.map(() => "?").join(",");
       const rows = (await db
         .prepare(
-          `SELECT id, source_product_id AS sourceProductId FROM products
+          `SELECT id, source_product_id AS "sourceProductId" FROM products
            WHERE source = 'TIV_TAAM' AND source_product_id IN (${placeholders})`
         )
         .all(...sourceIds)) as { id: number; sourceProductId: string }[];

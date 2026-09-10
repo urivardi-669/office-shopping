@@ -10,8 +10,8 @@ export async function GET(req: NextRequest) {
   const includeInactive = searchParams.get("all") === "1" && session?.role === "admin";
 
   let sql = `
-    SELECT p.id, p.name, p.active, p.category_id AS categoryId, c.name AS categoryName,
-           p.source, p.brand, p.image_url AS imageUrl, p.sku, p.source_url AS sourceUrl
+    SELECT p.id, p.name, p.active, p.category_id AS "categoryId", c.name AS "categoryName",
+           p.source, p.brand, p.image_url AS "imageUrl", p.sku, p.source_url AS "sourceUrl"
     FROM products p
     JOIN categories c ON c.id = p.category_id
     WHERE 1=1
@@ -38,8 +38,8 @@ export async function GET(req: NextRequest) {
     const placeholders = ids.map(() => "?").join(",");
     const units = (await db
       .prepare(
-        `SELECT product_id AS productId, unit_code AS unitCode, unit_label AS unitLabel,
-                package_size AS packageSize, package_size_unit AS packageSizeUnit, is_default AS isDefault
+        `SELECT product_id AS "productId", unit_code AS "unitCode", unit_label AS "unitLabel",
+                package_size AS "packageSize", package_size_unit AS "packageSizeUnit", is_default AS "isDefault"
          FROM product_units WHERE active = 1 AND product_id IN (${placeholders})
          ORDER BY is_default DESC, id`
       )
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     .run(name, categoryId);
   const product = await db
     .prepare(
-      `SELECT p.id, p.name, p.active, p.category_id AS categoryId, c.name AS categoryName
+      `SELECT p.id, p.name, p.active, p.category_id AS "categoryId", c.name AS "categoryName"
        FROM products p JOIN categories c ON c.id = p.category_id WHERE p.id = ?`
     )
     .get(info.lastInsertRowid);

@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   const existing = (await db
     .prepare(
-      `SELECT p.id, p.name, p.category_id AS categoryId, c.name AS categoryName
+      `SELECT p.id, p.name, p.category_id AS "categoryId", c.name AS "categoryName"
        FROM products p JOIN categories c ON c.id = p.category_id
        WHERE p.source = 'TIV_TAAM' AND p.source_product_id = ?`
     )
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 
   const product = await db
     .prepare(
-      `SELECT p.id, p.name, p.category_id AS categoryId, c.name AS categoryName
+      `SELECT p.id, p.name, p.category_id AS "categoryId", c.name AS "categoryName"
        FROM products p JOIN categories c ON c.id = p.category_id WHERE p.id = ?`
     )
     .get(productId);
