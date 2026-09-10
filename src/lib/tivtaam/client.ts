@@ -37,16 +37,12 @@ async function fetchJson(url: string): Promise<unknown> {
       },
     });
     if (!res.ok) {
-      const bodySnippet = await res.text().catch(() => "");
-      // TEMP-DEBUG: surface the real failure while diagnosing prod 503s.
-      throw new TivTaamUnavailableError(`Tiv Taam HTTP ${res.status}: ${bodySnippet.slice(0, 300)}`);
+      throw new TivTaamUnavailableError();
     }
     return await res.json();
   } catch (err) {
     if (err instanceof TivTaamUnavailableError) throw err;
-    // TEMP-DEBUG: surface the real failure while diagnosing prod 503s.
-    const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
-    throw new TivTaamUnavailableError(`Tiv Taam fetch failed: ${detail}`);
+    throw new TivTaamUnavailableError();
   } finally {
     clearTimeout(timeout);
   }

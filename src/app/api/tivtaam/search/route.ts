@@ -35,12 +35,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ results: withOfficeMatch });
   } catch (err) {
     if (err instanceof TivTaamUnavailableError) {
-      // TEMP-DEBUG: include err.message while diagnosing prod 503s; revert to the plain
-      // Hebrew message once resolved.
-      return NextResponse.json(
-        { error: "שירות טיב טעם אינו זמין כרגע. נסו שוב מאוחר יותר.", debug: err.message },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: "שירות טיב טעם אינו זמין כרגע. נסו שוב מאוחר יותר." }, { status: 503 });
     }
     return NextResponse.json({ error: "שגיאה בחיפוש מוצרים" }, { status: 500 });
   }
