@@ -27,7 +27,14 @@ async function fetchJson(url: string): Promise<unknown> {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "Accept-Language": "he-IL,he;q=0.9,en;q=0.8",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        Referer: "https://www.tivtaam.co.il/",
+        Origin: "https://www.tivtaam.co.il",
+      },
     });
     if (!res.ok) {
       const bodySnippet = await res.text().catch(() => "");
