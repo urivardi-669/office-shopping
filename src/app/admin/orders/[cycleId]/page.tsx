@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ProductImage from "@/components/ProductImage";
 
 type OrderDetailItem = {
@@ -19,10 +20,25 @@ type Order = { id: number; status: string; createdAt: string; closedAt: string |
 
 export default function AdminOrderDetailPage({ params }: { params: Promise<{ cycleId: string }> }) {
   const { cycleId } = use(params);
+  const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [items, setItems] = useState<OrderDetailItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  async function deleteOrder() {
+    if (!confirm(`למחוק לצמיתות את הזמנה #${cycleId}? הפעולה אינה הפיכה.`)) return;
+    setDeleting(true);
+    const res = await fetch(`/api/admin/orders/${cycleId}`, { method: "DELETE" });
+    if (!res.ok) {
+      const d = await res.json();
+      alert(d.error || "שגיאה במחיקת ההזמנה");
+      setDeleting(false);
+      return;
+    }
+    router.push("/admin/orders");
+  }
 
   useEffect(() => {
     fetch(`/api/admin/orders/${cycleId}`)
@@ -59,15 +75,24 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ cyc
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/admin/orders" className="text-sm text-violet-600 hover:text-violet-800">
-          ← חזרה להזמנות קודמות
-        </Link>
-        <h1 className="text-2xl font-bold text-neutral-800 mt-2">הזמנה #{order.id}</h1>
-        <p className="text-sm text-neutral-500">
-          הושלמה בתאריך {order.closedAt ? new Date(order.closedAt + "Z").toLocaleString("he-IL") : "-"} · כמות כוללת:{" "}
-          <span className="font-semibold text-violet-700">{totalQuantity}</span>
-        </p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <Link href="/admin/orders" className="text-sm text-violet-600 hover:text-violet-800">
+            ← חזרה להזמנות קודמות
+          </Link>
+          <h1 className="text-2xl font-bold text-neutral-800 mt-2">הזמנה #{order.id}</h1>
+          <p className="text-sm text-neutral-500">
+            הושלמה בתאריך {order.closedAt ? new Date(order.closedAt + "Z").toLocaleString("he-IL") : "-"} · כמות כוללת:{" "}
+            <span className="font-semibold text-violet-700">{totalQuantity}</span>
+          </p>
+        </div>
+        <button
+          onClick={deleteOrder}
+          disabled={deleting}
+          className="rounded-lg border border-red-200 text-red-600 px-4 py-2 text-sm font-medium hover:bg-red-50 disabled:opacity-50 shrink-0"
+        >
+          {deleting ? "מוחק..." : "מחק הזמנה"}
+        </button>
       </div>
 
       <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">

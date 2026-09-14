@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, withTransaction } from "@/lib/db";
 import { getSession } from "@/lib/session";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ cycleId: string }> }) {
@@ -64,4 +64,34 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
   });
 
   return NextResponse.json({ order: cycle, items: enriched });
+}
+
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ cycleId: string }> }) {
+  const session = await getSession();
+  if (!session || session.role !== "admin") {
+    return NextResponse.json({ error: "אין הרשאה" }, { status: 403 });
+  }
+
+  const { cycleId: cycleIdParam } = await params;
+  const cycleId = Number(cycleIdParam);
+
+  const cycle = (await db.prepare(`SELECT id, status FROM cycles WHERE id = ?`).get(cycleId)) as
+    | { id: number; status: string }
+    | undefined;
+
+  if (!cycle) return NextResponse.json({ error: "הזמנה לא נמצאה" }, { status: 404 });
+  // Only a closed (historical) order can be deleted — the open cycle is
+  // load-bearing for getOpenCycleId() and every in-progress request.
+  if (cycle.status !== "CLOSED") {
+    return NextResponse.json({ error: "אי אפשר למחוק הזמנה פתוחה" }, { status: 400 });
+  }
+
+  await withTransaction(async (tx) => {
+    await tx.prepare(`DELETE FROM order_items WHERE cycle_id = ?`).run(cycleId);
+    await tx.prepare(`DELETE FROM request_items WHERE cycle_id = ?`).run(cycleId);
+    await tx.prepare(`DELETE FROM suggestions WHERE cycle_id = ?`).run(cycleId);
+    await tx.prepare(`DELETE FROM cycles WHERE id = ?`).run(cycleId);
+  });
+
+  return NextResponse.json({ ok: true });
 }
