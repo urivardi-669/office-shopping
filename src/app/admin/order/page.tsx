@@ -74,7 +74,7 @@ export default function AdminOrderPage() {
   async function deleteFromOrder(productId: number) {
     setBusyProduct(productId);
     await fetch(`/api/order/item?productId=${productId}`, { method: "DELETE" });
-    setItems((prev) => prev.map((it) => (it.productId === productId ? { ...it, finalQuantity: 0 } : it)));
+    load();
     setBusyProduct(null);
   }
 

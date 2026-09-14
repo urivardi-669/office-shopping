@@ -36,12 +36,6 @@ export async function DELETE(req: NextRequest) {
 
   const cycleId = await getOpenCycleId();
   await db.prepare(`DELETE FROM order_items WHERE cycle_id = ? AND product_id = ?`).run(cycleId, productId);
-  await db
-    .prepare(
-      `INSERT INTO order_items (cycle_id, product_id, final_quantity) VALUES (?, ?, 0)
-       ON CONFLICT(cycle_id, product_id) DO UPDATE SET final_quantity = 0, updated_at = now()`
-    )
-    .run(cycleId, productId);
 
   return NextResponse.json({ ok: true });
 }
