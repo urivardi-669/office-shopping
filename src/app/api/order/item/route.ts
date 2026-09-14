@@ -16,9 +16,10 @@ export async function POST(req: NextRequest) {
   const cycleId = await getOpenCycleId();
   await db
     .prepare(
-      `INSERT INTO order_items (cycle_id, product_id, final_quantity)
-       VALUES (?, ?, ?)
-       ON CONFLICT(cycle_id, product_id) DO UPDATE SET final_quantity = excluded.final_quantity, updated_at = now()`
+      `INSERT INTO order_items (cycle_id, product_id, final_quantity, excluded)
+       VALUES (?, ?, ?, false)
+       ON CONFLICT(cycle_id, product_id) DO UPDATE
+         SET final_quantity = excluded.final_quantity, excluded = false, updated_at = now()`
     )
     .run(cycleId, productId, finalQuantity);
 
@@ -36,28 +37,17 @@ export async function DELETE(req: NextRequest) {
 
   const cycleId = await getOpenCycleId();
 
-  // When nobody actually requested this product, just remove the row —
-  // there's nothing worth keeping a placeholder for. But when employees did
-  // request it, the order list falls back to showing their raw demand count
-  // whenever there's no order_items row (see /api/order's merge logic) — so
-  // deleting outright would make it silently reappear at the demand count,
-  // looking exactly like the delete did nothing. Keep an explicit zeroed row
-  // instead, so "excluded from this order" stays visible and sticks.
-  const demand = (await db
-    .prepare(`SELECT COUNT(*)::int AS cnt FROM request_items WHERE cycle_id = ? AND product_id = ?`)
-    .get(cycleId, productId)) as { cnt: number };
-
-  if (demand.cnt > 0) {
-    await db
-      .prepare(
-        `INSERT INTO order_items (cycle_id, product_id, final_quantity)
-         VALUES (?, ?, 0)
-         ON CONFLICT(cycle_id, product_id) DO UPDATE SET final_quantity = 0, updated_at = now()`
-      )
-      .run(cycleId, productId);
-  } else {
-    await db.prepare(`DELETE FROM order_items WHERE cycle_id = ? AND product_id = ?`).run(cycleId, productId);
-  }
+  // Marked excluded rather than deleted: /api/order hides any excluded
+  // product regardless of demand, so it stays out of the builder even
+  // though employees may still request it — instead of the list quietly
+  // falling back to their raw demand count.
+  await db
+    .prepare(
+      `INSERT INTO order_items (cycle_id, product_id, final_quantity, excluded)
+       VALUES (?, ?, 0, true)
+       ON CONFLICT(cycle_id, product_id) DO UPDATE SET final_quantity = 0, excluded = true, updated_at = now()`
+    )
+    .run(cycleId, productId);
 
   return NextResponse.json({ ok: true });
 }

@@ -92,9 +92,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (addToOrder && suggestion.requested_quantity > 0) {
       await tx
         .prepare(
-          `INSERT INTO order_items (cycle_id, product_id, final_quantity)
-           VALUES (?, ?, ?)
-           ON CONFLICT(cycle_id, product_id) DO UPDATE SET final_quantity = order_items.final_quantity + excluded.final_quantity, updated_at = now()`
+          `INSERT INTO order_items (cycle_id, product_id, final_quantity, excluded)
+           VALUES (?, ?, ?, false)
+           ON CONFLICT(cycle_id, product_id) DO UPDATE
+             SET final_quantity = order_items.final_quantity + excluded.final_quantity, excluded = false, updated_at = now()`
         )
         .run(suggestion.cycle_id, resolvedProductId, suggestion.requested_quantity);
     }

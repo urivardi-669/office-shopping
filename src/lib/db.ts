@@ -197,6 +197,10 @@ async function runInit() {
 
   await addColumnIfMissing("order_items", "unit_code", `TEXT`);
   await addColumnIfMissing("order_items", "unit_label", `TEXT`);
+  // Distinct from final_quantity = 0: marks a product the admin actively
+  // removed from this order (via "מחק"), so it's hidden from the builder
+  // even though employees still requested it — instead of just showing 0.
+  await addColumnIfMissing("order_items", "excluded", `BOOLEAN NOT NULL DEFAULT FALSE`);
 
   await pool.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_products_source_id
