@@ -1,0 +1,147 @@
+#ekofresh-import-panel {
+  all: initial;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2147483000;
+  width: 300px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  font-family: "Segoe UI", Arial, "Helvetica Neue", sans-serif;
+  direction: rtl;
+  color: #262626;
+  padding: 12px;
+  display: block;
+}
+
+#ekofresh-import-panel * {
+  box-sizing: border-box;
+  font-family: inherit;
+  direction: rtl;
+}
+
+#ekofresh-import-panel .ekofresh-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+#ekofresh-import-panel .ekofresh-pill {
+  background: #0a0a0a;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
+#ekofresh-import-panel .ekofresh-title {
+  font-weight: 700;
+  font-size: 13px;
+  flex: 1;
+}
+
+#ekofresh-import-panel .ekofresh-close {
+  background: none;
+  border: none;
+  color: #a3a3a3;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+#ekofresh-import-panel .ekofresh-progress {
+  font-size: 11px;
+  color: #737373;
+  margin-bottom: 8px;
+}
+
+#ekofresh-import-panel .ekofresh-item-name {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+#ekofresh-import-panel .ekofresh-item-qty {
+  font-size: 12.5px;
+  color: #404040;
+  margin-bottom: 10px;
+}
+
+#ekofresh-import-panel .ekofresh-done {
+  font-size: 13px;
+  font-weight: 600;
+  color: #059669;
+  padding: 6px 0 2px;
+}
+
+#ekofresh-import-panel [hidden] {
+  display: none !important;
+}
+
+#ekofresh-import-panel .ekofresh-btn-block {
+  width: 100%;
+}
+
+#ekofresh-import-panel .ekofresh-instruction {
+  font-size: 12px;
+  color: #b45309;
+  background: #fffbeb;
+  border-radius: 8px;
+  padding: 8px 9px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+#ekofresh-import-panel .ekofresh-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#ekofresh-import-panel .ekofresh-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#ekofresh-import-panel .ekofresh-btn-primary {
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+#ekofresh-import-panel .ekofresh-btn-primary:hover {
+  background: #ede9fe;
+}
+
+#ekofresh-import-panel .ekofresh-btn-success {
+  background: #059669;
+  color: #fff;
+}
+
+#ekofresh-import-panel .ekofresh-btn-success:hover {
+  background: #047857;
+}
+
+#ekofresh-import-panel .ekofresh-btn-ghost {
+  background: none;
+  color: #a3a3a3;
+}
+
+#ekofresh-import-panel .ekofresh-btn-ghost:hover {
+  color: #525252;
+}
+
+/* Highlight on the real Tiv Taam page's matching "add to cart" button */
+.ekofresh-match-highlight {
+  outline: 3px solid #059669 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 6px rgba(5, 150, 105, 0.15) !important;
+  border-radius: 8px !important;
+}

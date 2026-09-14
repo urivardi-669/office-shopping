@@ -36,6 +36,31 @@ No new backend logic was introduced beyond letting those endpoints accept an
      requested quantity attached.
 4. Check **ההיסטוריה שלי** to see your past requests/suggestions.
 
+## Admin: importing a finished order into Tiv Taam
+
+Admins (role `admin`) see an extra **"ייבוא לטיב טעם"** tab in the popup:
+
+1. Pick one of the completed orders (`בונה הזמנה` → סיים הזמנה) from the dropdown.
+2. Click **התחל ייבוא בטיב טעם**. This saves the order's line items to the
+   extension's local storage and opens/focuses a tivtaam.co.il tab.
+3. On that tab, a small floating panel appears and walks through the order
+   one product at a time: it fills Tiv Taam's own search box with the
+   product name and (once results render) outlines the matching "הוספה לסל"
+   result in green.
+4. **The admin still does the actual add-to-cart click and sets the
+   quantity themselves**, on their own logged-in Tiv Taam session — the
+   extension never clicks "add to cart" or touches checkout/payment. Once
+   added, click **✓ הפריט נוסף — הבא** in the panel to move to the next item
+   (or **דלג** to skip one without marking it done).
+5. Progress is saved (survives closing the tab/popup) until you finish or
+   press **בטל ייבוא** in the popup.
+
+This is intentionally a "semi-auto" assistant, not full automation: Tiv Taam
+has no documented cart/checkout API, so anything beyond "fill the search box
+and point at the likely match" would mean scripting clicks against their
+live DOM on a real account — fragile, and a real purchase-adjacent action
+that should stay a deliberate human click.
+
 ## If the app moves to a different domain
 
 Update `APP_URL` in `lib/api.js` and the matching entry in

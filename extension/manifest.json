@@ -20,5 +20,13 @@
   "host_permissions": [
     "https://www.tivtaam.co.il/*",
     "https://office-shopping-nine.vercel.app/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.tivtaam.co.il/*"],
+      "js": ["content-tivtaam.js"],
+      "css": ["content-tivtaam.css"],
+      "run_at": "document_idle"
+    }
   ]
 }

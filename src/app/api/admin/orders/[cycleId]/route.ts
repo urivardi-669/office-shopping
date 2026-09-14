@@ -35,6 +35,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
     .prepare(
       `SELECT oi.product_id AS "productId", oi.final_quantity AS "finalQuantity",
               p.name AS "productName", c.name AS "categoryName", p.image_url AS "imageUrl",
+              p.source_product_id AS "sourceProductId", p.source_url AS "sourceUrl",
               (SELECT unit_label FROM product_units WHERE product_id = p.id AND is_default = 1 LIMIT 1) AS "unitLabel"
        FROM order_items oi
        JOIN products p ON p.id = oi.product_id
@@ -48,6 +49,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cyc
     productName: string;
     categoryName: string;
     imageUrl: string | null;
+    sourceProductId: string | null;
+    sourceUrl: string | null;
     unitLabel: string | null;
   }[];
 

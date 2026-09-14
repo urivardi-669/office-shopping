@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const items = await db
     .prepare(
       `SELECT ri.id, ri.quantity, ri.created_at AS "createdAt", ri.cycle_id AS "cycleId",
+              ri.product_id AS "productId", ri.unit_code AS "unitCode",
               COALESCE(ri.product_name_snapshot, p.name) AS "productName", c.name AS "categoryName", cy.status AS "cycleStatus",
               ri.unit_label AS "unitLabel", ri.image_url_snapshot AS "imageUrlSnapshot"
        FROM request_items ri

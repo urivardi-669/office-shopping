@@ -85,3 +85,17 @@ async function ekoFreshGetMySuggestions() {
   if (!res.ok) throw new Error("שגיאה בטעינת היסטוריה");
   return res.body.suggestions;
 }
+
+// ---------- Admin: closed orders (for Tiv Taam import) ----------
+
+async function ekoFreshGetAdminOrders() {
+  const res = await apiFetch("/api/admin/orders", { method: "GET" });
+  if (!res.ok) throw new Error("שגיאה בטעינת הזמנות");
+  return res.body.orders;
+}
+
+async function ekoFreshGetAdminOrderDetail(cycleId) {
+  const res = await apiFetch(`/api/admin/orders/${cycleId}`, { method: "GET" });
+  if (!res.ok) throw new Error("שגיאה בטעינת ההזמנה");
+  return res.body;
+}

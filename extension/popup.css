@@ -25,7 +25,9 @@ html,
 body {
   margin: 0;
   width: 380px;
-  min-height: 480px;
+  /* 600px is Chrome's practical ceiling for an action popup — asking for
+     more than that just gets clipped, so this is as tall as we can make it. */
+  min-height: 600px;
   background: var(--neutral-50);
   color: var(--neutral-800);
   font-family: "Segoe UI", Arial, "Helvetica Neue", sans-serif;
@@ -276,8 +278,8 @@ main {
 }
 
 .detail-img {
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   border-radius: 10px;
   object-fit: cover;
   background: var(--neutral-100);

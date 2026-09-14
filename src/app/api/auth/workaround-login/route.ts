@@ -42,11 +42,19 @@ export async function POST(req: NextRequest) {
 
   const intentToken = req.cookies.get(ADMIN_INTENT_COOKIE)?.value;
   const isAdmin = verifyAdminIntentToken(intentToken);
-  const role: "admin" | "user" = isAdmin ? "admin" : "user";
 
   const existing = (await db.prepare(`SELECT id, role FROM users WHERE name = ?`).get(email)) as
     | { id: number; role: string }
     | undefined;
+
+  // The admin-intent cookie can only ever *grant* admin (it's proof the
+  // ADMIN_PASSWORD flow just ran in this browser). Its absence must never
+  // demote an already-admin account — e.g. the Chrome extension logs in
+  // straight to this route with no way to carry that cookie at all, so
+  // treating "no cookie" as "downgrade to user" would silently strip admin
+  // access from real admins the moment they used the extension.
+  const role: "admin" | "user" = isAdmin || existing?.role === "admin" ? "admin" : "user";
+
   if (existing) {
     if (existing.role !== role) {
       await db.prepare(`UPDATE users SET role = ? WHERE id = ?`).run(role, existing.id);

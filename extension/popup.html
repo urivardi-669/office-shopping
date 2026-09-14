@@ -30,6 +30,7 @@
         <div class="tabs">
           <button id="tabSearch" class="tab active">חיפוש מוצר</button>
           <button id="tabHistory" class="tab">ההיסטוריה שלי</button>
+          <button id="tabTivTaamImport" class="tab" hidden>ייבוא לטיב טעם</button>
         </div>
 
         <div id="searchPane">
@@ -41,6 +42,26 @@
         <div id="historyPane" hidden>
           <div id="historyStatus" class="status-text"></div>
           <div id="historyList" class="results-list"></div>
+        </div>
+
+        <div id="tivTaamImportPane" hidden>
+          <div id="importQueueBanner" class="banner banner-info" hidden>
+            <div id="importQueueText"></div>
+            <div style="display:flex; gap:8px; margin-top:8px">
+              <button id="importOpenTabBtn" class="btn btn-primary" style="flex:1">פתח את טיב טעם</button>
+              <button id="importCancelBtn" class="link-btn">בטל ייבוא</button>
+            </div>
+          </div>
+
+          <div id="importSetup">
+            <label class="field-label">בחר הזמנה שהושלמה</label>
+            <select id="importOrderSelect" class="input" style="margin:6px 0 10px"></select>
+            <div id="importOrderStatus" class="status-text"></div>
+            <div id="importOrderItems" class="results-list"></div>
+            <button id="importStartBtn" class="btn btn-primary btn-block" style="margin-top:10px" disabled>
+              התחל ייבוא בטיב טעם
+            </button>
+          </div>
         </div>
       </section>
 
